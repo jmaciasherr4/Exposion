@@ -50,10 +50,10 @@
 {\bfseries Integrantes del equipo}\par
 \vspace{0.3cm}
 \begin{tabular}{ll}
-Alvia Villegas, Erick Adalberto & Investigaci\'on te\'orica y justificaci\'on de la herramienta \\
+Alvia Villegas, Erick Adalberto & Roundtrip, trazabilidad \\
 Arboleda Yanza, Francisco Javier & Modelado UML y construcci\'on del archivo \texttt{.ump} \\
 Calle Delgado, Kamila Annabella & Configuraci\'on del generador y verificaci\'on del c\'odigo Java \\
-Mac\'ias Herrera, Josthyn Esteban & Roundtrip, trazabilidad y coordinaci\'on del repositorio \\
+Mac\'ias Herrera, Josthyn Esteban & Investigaci\'on te\'orica y justificaci\'on de la herramienta y coordinaci\'on del repositorio \\
 \end{tabular}
 \vspace{1.8cm}
 
@@ -68,4 +68,41 @@ Mac\'ias Herrera, Josthyn Esteban & Roundtrip, trazabilidad y coordinaci\'on del
 
 \tableofcontents
 \newpage
+
+
+% ============================================================
+% RESUMEN
+% ============================================================
+\section*{Resumen}
+\addcontentsline{toc}{section}{Resumen}
+Este documento reporta la aplicaci\'on del ciclo completo de Ingenier\'ia Dirigida por Modelos (\emph{Model-Driven Development}, MDD) sobre un subsistema representativo del Proyecto Fin de Curso del equipo: un Sistema de Gesti\'on de Camaronera. Se utiliz\'o \textbf{UmpleOnline} (\url{https://try.umple.org}), la interfaz web del lenguaje y compilador Umple, que permite construir un diagrama de clases UML de forma gr\'afica y textual simult\'anea y generar autom\'aticamente c\'odigo fuente ejecutable en \textbf{Java} directamente en el navegador, sin instalaci\'on. Se model\'o el m\'odulo de \emph{Gesti\'on de Piscinas y Ciclos de Cultivo}, compuesto por ocho clases del dominio con relaciones de asociaci\'on, agregaci\'on, composici\'on y generalizaci\'on. A partir del modelo se ejecut\'o la generaci\'on nativa de c\'odigo Java (incluida la gesti\'on autom\'atica de la integridad referencial de las asociaciones, caracter\'istica distintiva de Umple), se verific\'o la compilaci\'on del proyecto resultante y se cerr\'o el ciclo con una prueba de \emph{round-trip} controlada. El resultado evidencia la trazabilidad completa entre el modelo de origen y el c\'odigo generado.
+
+% ============================================================
+% MARCO TEORICO
+% ============================================================
+\section{Marco te\'orico}
+
+\subsection{Model-Driven Engineering, MDA y MDD}
+El paradigma de la Ingenier\'ia Dirigida por Modelos (\emph{Model-Driven Engineering}, MDE) trata a los modelos como artefactos de primera clase del proceso de desarrollo: el modelo deja de ser un simple documento de apoyo y se convierte en la fuente autoritativa de la que derivan, mediante transformaciones automatizadas, tanto la documentaci\'on como el c\'odigo ejecutable \cite{brambilla2022}. La \emph{Model-Driven Architecture} (MDA), iniciativa del Object Management Group, formaliza esta idea en tres niveles de abstracci\'on \cite{omg2014mda}: el CIM (\emph{Computation Independent Model}), el PIM (\emph{Platform Independent Model}) y el PSM (\emph{Platform Specific Model}, ya ligado a un lenguaje y una plataforma concretos). La \emph{Model-Driven Development} (MDD) es la aplicaci\'on pr\'actica de MDE al ciclo de vida del software: los modelos gu\'ian la construcci\'on del sistema y el c\'odigo fuente se obtiene, total o parcialmente, mediante generadores \cite{brambilla2022}.
+
+Revisiones sistem\'aticas recientes confirman que la adopci\'on de MDD contin\'ua extendi\'endose a dominios espec\'ificos, aunque persisten brechas entre la teor\'ia acad\'emica y la pr\'actica industrial en cuanto a la completitud de los generadores y la calidad del c\'odigo resultante \cite{shamsujjoha2021}. En dominios emergentes, la literatura reciente identifica un patr\'on similar: los enfoques MDE aportan abstracci\'on y trazabilidad, pero la cobertura de los generadores hacia m\'ultiples lenguajes objetivo depende en gran medida de la extensibilidad del motor de generaci\'on \cite{naveed2024}.
+
+Un caso particular dentro de MDE es el de los lenguajes de \emph{programaci\'on orientada a modelos} (\emph{model-oriented programming}), en los que el modelo y el c\'odigo comparten una \'unica representaci\'on textual/gr\'afica sincronizada en ambos sentidos, en lugar de mantenerse como dos artefactos separados unidos por una transformaci\'on unidireccional. Umple, la tecnolog\'ia sobre la que opera UmpleOnline, es el exponente acad\'emico de referencia de este enfoque \cite{lethbridge2021umple}.
+
+\subsection{Transformaciones M2M y M2T}
+Las transformaciones \emph{modelo-a-modelo} (M2M) producen un modelo destino a partir de uno de origen, ambos conformes a metamodelos --t\'ipicamente la transformaci\'on PIM $\to$ PSM--, con QVT como est\'andar OMG de referencia. Las transformaciones \emph{modelo-a-texto} (M2T) producen artefactos textuales --c\'odigo fuente, configuraciones, documentaci\'on-- a partir de un modelo; el est\'andar OMG de referencia es MOFM2T \cite{omg2008mofm2t}. UmpleOnline aplica este segundo tipo de transformaci\'on de forma particular: en lugar de invocar una plantilla externa editable por el usuario, el compilador de Umple traduce internamente el modelo (clases, atributos, asociaciones, m\'aquinas de estado) directamente a c\'odigo Java compilable, gestionando adem\'as autom\'aticamente la integridad de las asociaciones bidireccionales --una responsabilidad que en generadores basados en plantillas (como MOFM2T/Acceleo) recae en el autor de la plantilla--.
+
+La calidad de la transformaci\'on M2T depende directamente de la consistencia del modelo de origen: un modelo con errores estructurales se propaga como c\'odigo defectuoso o como fallos de generaci\'on. Por ello la verificaci\'on de consistencia del modelo es hoy un \'area activa de investigaci\'on dentro de MDE \cite{marchezan2022}, y justifica que en la Fase 3 de este trabajo (Secci\'on \ref{sec:modelo}) se documente expl\'icitamente el resultado de la validaci\'on del modelo antes de generar c\'odigo.
+
+\subsection{Metamodelo, perfiles y plantillas: la particularidad de Umple}
+UML se define formalmente sobre MOF (\emph{Meta Object Facility}) \cite{omg2017uml}. Umple no implementa perfiles UML en el sentido estricto de OMG (estereotipos, valores etiquetados sobre un metamodelo extendido); en su lugar ofrece mecanismos propios de extensi\'on --\emph{traits} (mixins reutilizables entre clases) y directivas de generaci\'on embebidas en el propio archivo \texttt{.ump}-- que cumplen un rol equivalente al de un perfil: modificar c\'omo se genera una clase sin alterar el metamodelo base. Encuestas recientes a practicantes de herramientas de metamodelado confirman que la posibilidad de personalizar la generaci\'on --frente a generadores completamente cerrados-- es uno de los factores que m\'as valoran los equipos de desarrollo \cite{ozkaya2021}; en Umple esa personalizaci\'on ocurre a nivel de directiva de generaci\'on y de \emph{trait}, no de plantilla MTL externa.
+
+\subsection{Forward, reverse y round-trip engineering}
+\emph{Forward engineering} es la direcci\'on en la que el c\'odigo se deriva del modelo; \emph{reverse engineering} es la direcci\'on inversa; \emph{round-trip engineering} mantiene ambas direcciones sincronizadas. Umple est\'a dise\~nado espec\'ificamente para el \emph{round-trip} continuo: el c\'odigo Java generado y el modelo \texttt{.ump} conviven, y un cambio en cualquiera de los dos lados puede reflejarse en el otro. Este trabajo cubre de forma completa el \emph{forward engineering} y ejecuta, de manera controlada, una iteraci\'on de \emph{round-trip} (Secci\'on \ref{sec:roundtrip}).
+
+\subsection{Tendencias recientes: asistencia de IA generativa en el modelado}
+Estudios recientes eval\'uan el papel de los modelos de lenguaje de gran escala como asistentes --no reemplazos-- del modelador UML, mostrando que si bien pueden sugerir fragmentos de diagramas, la validez sem\'antica y la trazabilidad respecto de los requisitos del dominio siguen requiriendo la revisi\'on de un ingeniero de software \cite{camara2023}. Este hallazgo refuerza el enfoque adoptado en el presente trabajo: UmpleOnline se usa como motor determinista de generaci\'on sobre un modelo validado manualmente por el equipo.
+
+\subsection{Diagramas UML admisibles como origen}
+Conforme a la gu\'ia de la asignatura, el diagrama obligatorio como origen de la generaci\'on es el diagrama de clases; se admiten como complemento diagramas de casos de uso, de estados y de secuencia. UmpleOnline soporta nativamente, adem\'as del diagrama de clases, la definici\'on de m\'aquinas de estado embebidas en la propia clase, lo cual es directamente aprovechable si el subsistema modelado lo amerita.
 
