@@ -1,1 +1,71 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.multipart}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\sloppy
+
+\definecolor{uteqblue}{RGB}{0,51,102}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small ISR-401 -- Ingenier\'ia de Requisitos -- UTEQ}
+\fancyhead[R]{\small MDD: UmpleOnline $\to$ Java}
+\fancyfoot[C]{\thepage}
+
+\title{\vspace{-2cm}}
+\date{}
+
+\begin{document}
+
+% ============================================================
+% CARATULA
+% ============================================================
+\begin{titlepage}
+\centering
+{\large UNIVERSIDAD T\'ECNICA ESTATAL DE QUEVEDO\par}
+{\large Facultad de Ciencias de la Computaci\'on y Dise\~no Digital\par}
+{\large Carrera de Ingenier\'ia en Software\par}
+\vspace{1.2cm}
+{\small Asignatura: Ingenier\'ia de Requisitos (ISR-401)\par}
+{\small Docente: Ing. Gleiston Guerrero Ulloa, PhD.\par}
+{\small Per\'iodo acad\'emico: 2026--2027 PPA \quad$\vert$\quad Paralelo: 4to Software ``A''\par}
+\vspace{1.8cm}
+{\Large\bfseries Ciclo completo de Ingenier\'ia Dirigida por Modelos (MDD)\par}
+{\Large\bfseries de UML a c\'odigo fuente con UmpleOnline\par}
+\vspace{0.4cm}
+{\large Caso de aplicaci\'on: Sistema de Gesti\'on de Camaronera -- M\'odulo de\par}
+{\large Gesti\'on de Piscinas y Ciclos de Cultivo (Proyecto Fin de Curso)\par}
+\vspace{1.6cm}
+{\bfseries Integrantes del equipo}\par
+\vspace{0.3cm}
+\begin{tabular}{ll}
+Alvia Villegas, Erick Adalberto & Investigaci\'on te\'orica y justificaci\'on de la herramienta \\
+Arboleda Yanza, Francisco Javier & Modelado UML y construcci\'on del archivo \texttt{.ump} \\
+Calle Delgado, Kamila Annabella & Configuraci\'on del generador y verificaci\'on del c\'odigo Java \\
+Mac\'ias Herrera, Josthyn Esteban & Roundtrip, trazabilidad y coordinaci\'on del repositorio \\
+\end{tabular}
+\vspace{1.8cm}
+
+{\bfseries Repositorio GitHub del proyecto:}\par
+\vspace{0.2cm}
+\url{https://github.com/jmaciasherr4/Exposion}
+\vspace{2.5cm}
+
+\vfill
+{\small Quevedo, Ecuador -- 2026\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
 
