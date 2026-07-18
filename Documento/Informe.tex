@@ -106,3 +106,48 @@ Estudios recientes eval\'uan el papel de los modelos de lenguaje de gran escala 
 \subsection{Diagramas UML admisibles como origen}
 Conforme a la gu\'ia de la asignatura, el diagrama obligatorio como origen de la generaci\'on es el diagrama de clases; se admiten como complemento diagramas de casos de uso, de estados y de secuencia. UmpleOnline soporta nativamente, adem\'as del diagrama de clases, la definici\'on de m\'aquinas de estado embebidas en la propia clase, lo cual es directamente aprovechable si el subsistema modelado lo amerita.
 
+
+% ============================================================
+% JUSTIFICACION DE LA HERRAMIENTA
+% ============================================================
+\section{Justificaci\'on de la herramienta seleccionada}
+\label{sec:justificacion}
+
+\subsection{Requisitos del PFC que restringen la selecci\'on}
+El PFC del equipo es un Sistema de Gesti\'on de Camaronera. Las restricciones tecnol\'ogicas declaradas por el equipo para el alcance de esta actividad son: lenguaje objetivo \textbf{Java} (ajustado desde C\#/.NET tras confirmar que las herramientas evaluadas por el equipo --GenMyModel, Creately y finalmente UmpleOnline-- no ofrec\'ian, seg\'un el caso, disponibilidad, capacidad real de generaci\'on de c\'odigo, o soporte nativo de C\#); colaboraci\'on web sin instalaci\'on local; y costo nulo, dado el car\'acter acad\'emico del proyecto. El PFC completo (Sistema de Gesti\'on de Camaronera) no fija a priori un \'unico lenguaje de implementaci\'on para todos sus subsistemas; para efectos de \textbf{esta actividad} el equipo restringe el alcance a Java exclusivamente, por ser el lenguaje objetivo nativo y sin fricci\'on de UmpleOnline. Esta decisi\'on es v\'alida \'unicamente para el m\'odulo demostrativo \emph{Gesti\'on de Piscinas y Ciclos de Cultivo}; la elecci\'on del stack tecnol\'ogico definitivo del PFC se documentar\'a en el informe de arquitectura del proyecto de fin de curso, fuera del alcance de esta pr\'actica.
+
+\subsection{Herramientas evaluadas por el equipo antes de llegar a UmpleOnline}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{2.6cm}p{5.2cm}p{5.2cm}}
+\toprule
+\textbf{Herramienta} & \textbf{Motivo de descarte} & \textbf{Fuente de la verificaci\'on} \\
+\midrule
+GenMyModel & Sin generador C\# nativo (solo Java, Java-JPA, SQL, Spring); requer\'ia construir una plantilla MTL propia, lo que exced\'ia el tiempo disponible del equipo. & Documentaci\'on oficial del producto. \\
+Creately & Es una herramienta de dibujo gen\'erico: exporta \'unicamente a imagen (PNG/SVG/PDF) o a Word/PowerPoint/Excel; \textbf{no genera c\'odigo fuente} a partir del diagrama, por lo que incumple el gatekeeper G4 de la gu\'ia de la asignatura. & Documentaci\'on oficial del producto. \\
+\bottomrule
+\end{tabular}
+\caption{Historial de descarte de herramientas antes de seleccionar UmpleOnline.}
+\end{table}
+
+\subsection{UmpleOnline frente a las alternativas admitidas por la gu\'ia}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{2.6cm}p{4.6cm}p{4.6cm}}
+\toprule
+\textbf{Herramienta} & \textbf{Generadores nativos} & \textbf{Observaci\'on para este PFC} \\
+\midrule
+UmpleOnline & Java, C++ (tiempo real), PHP, SQL, JUnit (tests); Python en fase beta & Cero instalaci\'on, gesti\'on autom\'atica de integridad de asociaciones, respaldo acad\'emico publicado \cite{lethbridge2021umple}; \textbf{requiere confirmaci\'on expresa del docente} por no figurar en la lista de la gu\'ia (\S 4, \guillemotleft Otras\guillemotright) \\
+Enterprise Architect & Java, C\#, C++, PHP, Python, VB.NET & Generador multi-lenguaje nativo, pero licencia comercial \\
+Visual Paradigm & Java, C\#, C++, Python, VB & Generador ORM/JPA robusto, licencia comercial para uso completo \\
+StarUML & Java, C\#, C++, TypeScript, Python & Generador por extensi\'on, sin colaboraci\'on web en tiempo real \\
+\bottomrule
+\end{tabular}
+\caption{Comparaci\'on de UmpleOnline frente a las herramientas listadas expl\'icitamente en la gu\'ia.}
+\end{table}
+
+El equipo seleccion\'o \textbf{UmpleOnline} priorizando: (i) capacidad real y verificable de generaci\'on de c\'odigo compilable, condici\'on que Creately no cumple; (ii) ausencia de fricci\'on de instalaci\'on o licenciamiento, a diferencia de Enterprise Architect y Visual Paradigm; y (iii) el hecho de que la gesti\'on autom\'atica de asociaciones bidireccionales de Umple permite a un equipo de nivel de pregrado enfocarse en el dise\~no del modelo en lugar de en los detalles de implementaci\'on de la persistencia en memoria de las relaciones. Como contrapartida, el equipo asume que UmpleOnline no est\'a preincluida en la lista de la Secci\'on 4 de la gu\'ia, por lo que \texttt{[COMPLETAR: adjuntar aqu\'i la confirmaci\'on de admisibilidad del docente, obtenida antes de la exposici\'on, conforme lo exige la gu\'ia.]}
+
+
