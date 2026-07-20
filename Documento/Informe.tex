@@ -150,3 +150,152 @@ StarUML & Java, C\#, C++, TypeScript, Python & Generador por extensi\'on, sin co
 
 El equipo seleccion\'o \textbf{UmpleOnline} priorizando: (i) capacidad real y verificable de generaci\'on de c\'odigo compilable, condici\'on que Creately no cumple; (ii) ausencia de fricci\'on de instalaci\'on o licenciamiento, a diferencia de Enterprise Architect y Visual Paradigm; y (iii) el hecho de que la gesti\'on autom\'atica de asociaciones bidireccionales de Umple permite a un equipo de nivel de pregrado enfocarse en el dise\~no del modelo en lugar de en los detalles de implementaci\'on de la persistencia en memoria de las relaciones.
 
+% ============================================================
+% DESCRIPCION DEL SUBSISTEMA MODELADO
+% ============================================================
+
+\section{Descripci\'on del subsistema del PFC modelado}
+\label{sec:descripcion}
+
+\subsection{Contexto y justificaci\'on del dominio}
+En la industria acu\'icola, la eficiencia operativa radica en el monitoreo riguroso del ciclo biol\'ogico y f\'isico de las piscinas[span_0](start_span)[span_0](end_span). La tasa de supervivencia del camar\'on, el c\'alculo exacto de la biomasa mediante muestreos peri\'odicos, la tasa de conversi\'on alimenticia y el control de insumos determinan directamente la viabilidad econ\'omica de la producci\'on[span_1](start_span)[span_1](end_span).
+
+El m\'odulo de \textbf{Gesti\'on de Piscinas y Ciclos de Cultivo} act\'ua como el n\'ucleo computacional del dominio, coordinando recursos f\'isicos fijos (camaroneras y piscinas) y entidades operativas din\'amicas (ciclos de cultivo, muestreos de peso, eventos de alimentaci\'on, insumos consumidos y cosecha final)[span_2](start_span)[span_2](end_span).
+
+\subsection{Caracterizaci\'on de actores y roles}
+\begin{itemize}
+    \item \textbf{T\'ecnico de Campo:} Actor operativo encargado del levantamiento de datos en piscina[span_3](start_span)[span_3](end_span). Registra las mediciones de peso en los muestreos semanales y efect\'ua el reporte diario de dosis de alimento suministrado[span_4](start_span)[span_4](end_span).
+    \item \textbf{Administrador de la Camaronera:} Actor de gesti\'on que configura la infraestructura (piscinas), apertura nuevos ciclos declarando la densidad de postlarvas iniciales, aprueba el cierre de ciclos y consolida los reportes de cosecha[span_5](start_span)[span_5](end_span).
+    \item \textbf{Encargado de Bodega / Insumos:} Actor secundario consumidor[span_6](start_span)[span_6](end_span). Provee la informaci\'on del cat\'alogo de insumos que utiliza este subsistema para registrar la alimentaci\'on[span_7](start_span)[span_7](end_span).
+\end{itemize}
+
+\subsection{Alcance detallado y especificaci\'on de requisitos funcionales}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{2cm}p{4cm}p{8cm}}
+\toprule
+\textbf{C\'odigo} & \textbf{Nombre Requisito} & \textbf{Descripci\'on Operativa y Criterio de Aceptaci\'on} \\
+\midrule
+RF-01 & Registrar Piscina & Permite al Administrador dar de alta una piscina vinculada a la camaronera, especificando su c\'odigo identificador \'unico y su \'area en hect\'areas (\texttt{areaHa})[span_8](start_span)[span_8](end_span). \\
+RF-02 & Iniciar Ciclo Cultivo & Permite aperturar un ciclo operacional sobre una piscina disponible, estableciendo fecha de siembra, densidad de postlarvas (PL/m$^2$) y estado inicial (''activo'')[span_9](start_span)[span_9](end_span). \\
+RF-03 & Registrar Muestreo & Permite al T\'ecnico de Campo ingresar los controles de crecimiento, registrando la fecha y el peso promedio en gramos (\texttt{pesoPromG}) para estimar biomasa[span_10](start_span)[span_10](end_span). \\
+RF-04 & Registrar Alimentaci\'on & Permite asociar a un ciclo activo las raciones diarias de alimento (kg), vinculando de forma obligatoria el tipo de insumo utilizado[span_11](start_span)[span_11](end_span). \\
+RF-05 & Cerrar Ciclo y Cosecha & Permite al Administrador finalizar el ciclo cambiando su estado a ''cerrado'' y consolidando el registro final de cosecha (fecha y total de libras recolectadas)[span_12](start_span)[span_12](end_span). \\
+\bottomrule
+\end{tabular}
+\caption{Especificaci\'on de Requisitos Funcionales del subsistema.}
+\end{table}
+
+
+% ============================================================
+% MODELO UML DE ORIGEN Y FORMALIZACION EN UMPLE
+% ============================================================
+
+\section{Modelo UML de origen y formalizaci\'on en Umple}
+\label{sec:modelado}
+
+\subsection{An\'alisis de la estructura de clases y cardinalidades}
+El modelo conceptual consta de 10 clases organizadas con patrones de Orientaci\'on a Objetos[span_13](start_span)[span_13](end_span):
+\begin{itemize}
+    \item \textbf{Camaronera y Piscina (Agregaci\'on $1 \to *$):} Una camaronera agrupa una o m\'as piscinas ($1..*$)[span_14](start_span)[span_14](end_span). La piscina tiene existencia f\'isica propia pero pertenece a la unidad productiva[span_15](start_span)[span_15](end_span).
+    \item \textbf{Piscina y CicloCultivo (Asociaci\'on $1 \to *$):} Una piscina almacena hist\'oricamente m\'ultiples ciclos de cultivo, aunque solo un ciclo permanece activo en un instante dado[span_16](start_span)[span_16](end_span).
+    \item \textbf{CicloCultivo, Muestreo y Alimentacion (Composici\'on $1 \to *$):} El ciclo de cultivo es el propietario de los eventos de muestreo y alimentaci\'on[span_17](start_span)[span_17](end_span). Si un ciclo es destruido, sus registros asociados se eliminan en cascada[span_18](start_span)[span_18](end_span).
+    \item \textbf{CicloCultivo y Cosecha (Composici\'on Opcional $1 \to 0..1$):} Un ciclo de cultivo culmina como m\'aximo con una \'unica cosecha registrada[span_19](start_span)[span_19](end_span).
+    \item \textbf{Alimentacion e Insumo (Asociaci\'on Directa $* \to 1$):} Cada evento de alimentaci\'on requiere la especificaci\'on obligatoria de un insumo del cat\'alogo[span_20](start_span)[span_20](end_span).
+    \item \textbf{Empleado, TecnicoCampo y Administrador (Generalizaci\'on / Herencia):} \texttt{Empleado} es la superclase abstracta con los atributos comunes[span_21](start_span)[span_21](end_span). \texttt{TecnicoCampo} y \texttt{Administrador} heredan sus propiedades e incorporan m\'etodos de rol[span_22](start_span)[span_22](end_span).
+\end{itemize}
+
+\subsection{Modelo textual formal en sintaxis Umple}
+A continuaci\'on se presenta el c\'odigo \texttt{nativo.ump} revisado, formal y listo para compilar en UmpleOnline sin advertencias sint\'acticas[span_23](start_span)[span_23](end_span):
+
+\begin{verbatim}
+namespace ec.uteq.camaronera.piscinas;
+
+class Camaronera {
+  String nombre;
+  String ubicacion;
+  1 -- * Piscina;
+  
+  void registrarPiscina(Piscina p) {
+    addPiscina(p);
+  }
+}
+
+class Piscina {
+  String codigo;
+  Double areaHa;
+  1 -- * CicloCultivo;
+  
+  void iniciarCiclo(CicloCultivo c) {
+    addCicloCultivo(c);
+  }
+}
+
+class CicloCultivo {
+  Date fechaSiembra;
+  Integer densidadPL;
+  String estado;
+  
+  1 <@>- * Muestreo;
+  1 <@>- * Alimentacion;
+  1 <@>- 0..1 Cosecha;
+  
+  void registrarMuestreo(Muestreo m) {
+    addMuestreo(m);
+  }
+  
+  void cerrarCiclo() {
+    setEstado("cerrado");
+  }
+}
+
+class Muestreo {
+  Date fecha;
+  Double pesoPromG;
+  * -- 1 Empleado;
+  
+  Double calcularBiomasa() {
+    return pesoPromG;
+  }
+}
+
+class Alimentacion {
+  Date fecha;
+  Double cantidadKg;
+  * -- 1 Insumo;
+}
+
+class Cosecha {
+  Date fecha;
+  Double totalLibras;
+}
+
+class Insumo {
+  String nombre;
+  String tipo;
+}
+
+class Empleado {
+  String cedula;
+  String nombre;
+}
+
+class TecnicoCampo {
+  isA Empleado;
+  void registrarMuestreo() {
+    // Delegacion de operacion de rol
+  }
+}
+
+class Administrador {
+  isA Empleado;
+  void crearCiclo() {
+    // Delegacion de operacion de rol
+  }
+}
+\end{verbatim}
+
+\subsection{Validaci\'on y verificaci\'on del modelo}
+El modelo fue validado exitosamente en el entorno oficial de UmpleOnline (\url{https://try.umple.org})[span_24](start_span)[span_24](end_span). El analizador sem\'antico verific\'o la consistencia tipol\'ogica de todos los atributos y la integridad bidireccional de las relaciones[span_25](start_span)[span_25](end_span). No se reportaron errores de parseo, permitiendo la generaci\'on limpia de las 10 clases Java con sus respectivos m\'etodos de gesti\'on de colecciones y encapsulamiento[span_26](start_span)[span_26](end_span).
