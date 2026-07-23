@@ -1,0 +1,84 @@
+namespace ec.uteq.camaronera.piscinas;
+
+class Camaronera {
+  String nombre;
+  String ubicacion;
+  1 -- * Piscina;
+
+  void registrarPiscina(Piscina p) {
+    addPiscina(p);
+  }
+}
+
+class Piscina {
+  String codigo;
+  Double areaHa;
+  1 -- * CicloCultivo;
+
+  void iniciarCiclo(CicloCultivo c) {
+    addCicloCultivo(c);
+  }
+}
+
+class CicloCultivo {
+  Date fechaSiembra;
+  Integer densidadPL;
+  String estado;
+
+  1 <@>- * Muestreo;
+  1 <@>- * Alimentacion;
+  1 <@>- 0..1 Cosecha;
+
+  void registrarMuestreo(Muestreo m) {
+    addMuestreo(m);
+  }
+
+  void cerrarCiclo() {
+    setEstado("cerrado");
+  }
+}
+
+class Muestreo {
+  Date fecha;
+  Double pesoPromG;
+  * -- 1 Empleado;
+
+  Double calcularBiomasa() {
+    return pesoPromG;
+  }
+}
+
+class Alimentacion {
+  Date fecha;
+  Double cantidadKg;
+  * -- 1 Insumo;
+}
+
+class Cosecha {
+  Date fecha;
+  Double totalLibras;
+}
+
+class Insumo {
+  String nombre;
+  String tipo;
+}
+
+class Empleado {
+  String cedula;
+  String nombre;
+}
+
+class TecnicoCampo {
+  isA Empleado;
+  void registrarMuestreo() {
+    // Delegacion de operacion de rol
+  }
+}
+
+class Administrador {
+  isA Empleado;
+  void crearCiclo() {
+    // Delegacion de operacion de rol
+  }
+}
