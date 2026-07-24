@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,shapes.multipart}
 \usepackage{booktabs}
@@ -12,7 +13,8 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
-\sloppy
+\usepackage[expansion=false]{microtype}
+\setlength{\emergencystretch}{3em}
 
 \definecolor{uteqblue}{RGB}{0,51,102}
 
@@ -32,6 +34,7 @@
 % CARATULA
 % ============================================================
 \begin{titlepage}
+\sloppy
 \centering
 {\large UNIVERSIDAD T\'ECNICA ESTATAL DE QUEVEDO\par}
 {\large Facultad de Ciencias de la Computaci\'on y Dise\~no Digital\par}
@@ -49,11 +52,11 @@
 \vspace{1.6cm}
 {\bfseries Integrantes del equipo}\par
 \vspace{0.3cm}
-\begin{tabular}{ll}
-Alvia Villegas, Erick Adalberto & Roundtrip, trazabilidad \\
-Arboleda Yanza, Francisco Javier & Modelado UML y construcci\'on del archivo \texttt{.ump} \\
-Calle Delgado, Kamila Annabella & Configuraci\'on del generador y verificaci\'on del c\'odigo Java \\
-Mac\'ias Herrera, Josthyn Esteban & Investigaci\'on te\'orica y justificaci\'on de la herramienta y coordinaci\'on del repositorio \\
+\begin{tabular}{@{}p{6.2cm}p{7.2cm}@{}}
+Alvia Villegas, Erick Adalberto & Roundtrip, trazabilidad \\[2pt]
+Arboleda Yanza, Francisco Javier & Modelado UML y construcci\'on del archivo \texttt{.ump} \\[2pt]
+Calle Delgado, Kamila Annabella & Configuraci\'on del generador y verificaci\'on del c\'odigo Java \\[2pt]
+Mac\'ias Herrera, Josthyn Esteban & Investigaci\'on te\'orica, justificaci\'on de la herramienta y coordinaci\'on del repositorio \\
 \end{tabular}
 \vspace{1.8cm}
 
@@ -92,7 +95,7 @@ Un caso particular dentro de MDE es el de los lenguajes de \emph{programaci\'on 
 \subsection{Transformaciones M2M y M2T}
 Las transformaciones \emph{modelo-a-modelo} (M2M) producen un modelo destino a partir de uno de origen, ambos conformes a metamodelos --t\'ipicamente la transformaci\'on PIM $\to$ PSM--, con QVT como est\'andar OMG de referencia. Las transformaciones \emph{modelo-a-texto} (M2T) producen artefactos textuales --c\'odigo fuente, configuraciones, documentaci\'on-- a partir de un modelo; el est\'andar OMG de referencia es MOFM2T \cite{omg2008mofm2t}. UmpleOnline aplica este segundo tipo de transformaci\'on de forma particular: en lugar de invocar una plantilla externa editable por el usuario, el compilador de Umple traduce internamente el modelo (clases, atributos, asociaciones, m\'aquinas de estado) directamente a c\'odigo Java compilable, gestionando adem\'as autom\'aticamente la integridad de las asociaciones bidireccionales --una responsabilidad que en generadores basados en plantillas (como MOFM2T/Acceleo) recae en el autor de la plantilla--.
 
-La calidad de la transformaci\'on M2T depende directamente de la consistencia del modelo de origen: un modelo con errores estructurales se propaga como c\'odigo defectuoso o como fallos de generaci\'on. Por ello la verificaci\'on de consistencia del modelo es hoy un \'area activa de investigaci\'on dentro de MDE \cite{marchezan2022}, y justifica que en la Fase 3 de este trabajo (Secci\'on \ref{sec:modelo}) se documente expl\'icitamente el resultado de la validaci\'on del modelo antes de generar c\'odigo.
+La calidad de la transformaci\'on M2T depende directamente de la consistencia del modelo de origen: un modelo con errores estructurales se propaga como c\'odigo defectuoso o como fallos de generaci\'on. Por ello la verificaci\'on de consistencia del modelo es hoy un \'area activa de investigaci\'on dentro de MDE \cite{marchezan2022}, y justifica que en la Fase 3 de este trabajo (Secci\'on \ref{sec:modelado}) se documente expl\'icitamente el resultado de la validaci\'on del modelo antes de generar c\'odigo.
 
 \subsection{Metamodelo, perfiles y plantillas: la particularidad de Umple}
 UML se define formalmente sobre MOF (\emph{Meta Object Facility}) \cite{omg2017uml}. Umple no implementa perfiles UML en el sentido estricto de OMG (estereotipos, valores etiquetados sobre un metamodelo extendido); en su lugar ofrece mecanismos propios de extensi\'on --\emph{traits} (mixins reutilizables entre clases) y directivas de generaci\'on embebidas en el propio archivo \texttt{.ump}-- que cumplen un rol equivalente al de un perfil: modificar c\'omo se genera una clase sin alterar el metamodelo base. Encuestas recientes a practicantes de herramientas de metamodelado confirman que la posibilidad de personalizar la generaci\'on --frente a generadores completamente cerrados-- es uno de los factores que m\'as valoran los equipos de desarrollo \cite{ozkaya2021}; en Umple esa personalizaci\'on ocurre a nivel de directiva de generaci\'on y de \emph{trait}, no de plantilla MTL externa.
@@ -117,7 +120,7 @@ Conforme a la gu\'ia de la asignatura, el diagrama obligatorio como origen de la
 El PFC del equipo es un Sistema de Gesti\'on de Camaronera. Las restricciones tecnol\'ogicas declaradas por el equipo para el alcance de esta actividad son: lenguaje objetivo \textbf{Java} (ajustado desde C\#/.NET tras confirmar que las herramientas evaluadas por el equipo --GenMyModel, Creately y finalmente UmpleOnline-- no ofrec\'ian, seg\'un el caso, disponibilidad, capacidad real de generaci\'on de c\'odigo, o soporte nativo de C\#); colaboraci\'on web sin instalaci\'on local; y costo nulo, dado el car\'acter acad\'emico del proyecto. El PFC completo (Sistema de Gesti\'on de Camaronera) no fija a priori un \'unico lenguaje de implementaci\'on para todos sus subsistemas; para efectos de \textbf{esta actividad} el equipo restringe el alcance a Java exclusivamente, por ser el lenguaje objetivo nativo y sin fricci\'on de UmpleOnline. Esta decisi\'on es v\'alida \'unicamente para el m\'odulo demostrativo \emph{Gesti\'on de Piscinas y Ciclos de Cultivo}; la elecci\'on del stack tecnol\'ogico definitivo del PFC se documentar\'a en el informe de arquitectura del proyecto de fin de curso, fuera del alcance de esta pr\'actica.
 
 \subsection{Herramientas evaluadas por el equipo antes de llegar a UmpleOnline}
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{p{2.6cm}p{5.2cm}p{5.2cm}}
@@ -132,7 +135,7 @@ Creately & Es una herramienta de dibujo gen\'erico: exporta \'unicamente a image
 \end{table}
 
 \subsection{UmpleOnline frente a las alternativas admitidas por la gu\'ia}
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{p{2.6cm}p{4.6cm}p{4.6cm}}
@@ -158,31 +161,31 @@ El equipo seleccion\'o \textbf{UmpleOnline} priorizando: (i) capacidad real y ve
 \label{sec:descripcion}
 
 \subsection{Contexto y justificaci\'on del dominio}
-En la industria acu\'icola, la eficiencia operativa radica en el monitoreo riguroso del ciclo biol\'ogico y f\'isico de las piscinas[span_0](start_span)[span_0](end_span). La tasa de supervivencia del camar\'on, el c\'alculo exacto de la biomasa mediante muestreos peri\'odicos, la tasa de conversi\'on alimenticia y el control de insumos determinan directamente la viabilidad econ\'omica de la producci\'on[span_1](start_span)[span_1](end_span).
+En la industria acu\'icola, la eficiencia operativa radica en el monitoreo riguroso del ciclo biol\'ogico y f\'isico de las piscinas. La tasa de supervivencia del camar\'on, el c\'alculo exacto de la biomasa mediante muestreos peri\'odicos, la tasa de conversi\'on alimenticia y el control de insumos determinan directamente la viabilidad econ\'omica de la producci\'on.
 
-El m\'odulo de \textbf{Gesti\'on de Piscinas y Ciclos de Cultivo} act\'ua como el n\'ucleo computacional del dominio, coordinando recursos f\'isicos fijos (camaroneras y piscinas) y entidades operativas din\'amicas (ciclos de cultivo, muestreos de peso, eventos de alimentaci\'on, insumos consumidos y cosecha final)[span_2](start_span)[span_2](end_span).
+El m\'odulo de \textbf{Gesti\'on de Piscinas y Ciclos de Cultivo} act\'ua como el n\'ucleo computacional del dominio, coordinando recursos f\'isicos fijos (camaroneras y piscinas) y entidades operativas din\'amicas (ciclos de cultivo, muestreos de peso, eventos de alimentaci\'on, insumos consumidos y cosecha final).
 
 \subsection{Caracterizaci\'on de actores y roles}
 \begin{itemize}
-    \item \textbf{T\'ecnico de Campo:} Actor operativo encargado del levantamiento de datos en piscina[span_3](start_span)[span_3](end_span). Registra las mediciones de peso en los muestreos semanales y efect\'ua el reporte diario de dosis de alimento suministrado[span_4](start_span)[span_4](end_span).
-    \item \textbf{Administrador de la Camaronera:} Actor de gesti\'on que configura la infraestructura (piscinas), apertura nuevos ciclos declarando la densidad de postlarvas iniciales, aprueba el cierre de ciclos y consolida los reportes de cosecha[span_5](start_span)[span_5](end_span).
-    \item \textbf{Encargado de Bodega / Insumos:} Actor secundario consumidor[span_6](start_span)[span_6](end_span). Provee la informaci\'on del cat\'alogo de insumos que utiliza este subsistema para registrar la alimentaci\'on[span_7](start_span)[span_7](end_span).
+    \item \textbf{T\'ecnico de Campo:} Actor operativo encargado del levantamiento de datos en piscina. Registra las mediciones de peso en los muestreos semanales y efect\'ua el reporte diario de dosis de alimento suministrado.
+    \item \textbf{Administrador de la Camaronera:} Actor de gesti\'on que configura la infraestructura (piscinas), apertura nuevos ciclos declarando la densidad de postlarvas iniciales, aprueba el cierre de ciclos y consolida los reportes de cosecha.
+    \item \textbf{Encargado de Bodega / Insumos:} Actor secundario consumidor. Provee la informaci\'on del cat\'alogo de insumos que utiliza este subsistema para registrar la alimentaci\'on.
 \end{itemize}
 
 \subsection{Alcance detallado y especificaci\'on de requisitos funcionales}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{p{2cm}p{4cm}p{8cm}}
 \toprule
 \textbf{C\'odigo} & \textbf{Nombre Requisito} & \textbf{Descripci\'on Operativa y Criterio de Aceptaci\'on} \\
 \midrule
-RF-01 & Registrar Piscina & Permite al Administrador dar de alta una piscina vinculada a la camaronera, especificando su c\'odigo identificador \'unico y su \'area en hect\'areas (\texttt{areaHa})[span_8](start_span)[span_8](end_span). \\
-RF-02 & Iniciar Ciclo Cultivo & Permite aperturar un ciclo operacional sobre una piscina disponible, estableciendo fecha de siembra, densidad de postlarvas (PL/m$^2$) y estado inicial (''activo'')[span_9](start_span)[span_9](end_span). \\
-RF-03 & Registrar Muestreo & Permite al T\'ecnico de Campo ingresar los controles de crecimiento, registrando la fecha y el peso promedio en gramos (\texttt{pesoPromG}) para estimar biomasa[span_10](start_span)[span_10](end_span). \\
-RF-04 & Registrar Alimentaci\'on & Permite asociar a un ciclo activo las raciones diarias de alimento (kg), vinculando de forma obligatoria el tipo de insumo utilizado[span_11](start_span)[span_11](end_span). \\
-RF-05 & Cerrar Ciclo y Cosecha & Permite al Administrador finalizar el ciclo cambiando su estado a ''cerrado'' y consolidando el registro final de cosecha (fecha y total de libras recolectadas)[span_12](start_span)[span_12](end_span). \\
+RF-01 & Registrar Piscina & Permite al Administrador dar de alta una piscina vinculada a la camaronera, especificando su c\'odigo identificador \'unico y su \'area en hect\'areas (\texttt{areaHa}). \\
+RF-02 & Iniciar Ciclo Cultivo & Permite aperturar un ciclo operacional sobre una piscina disponible, estableciendo fecha de siembra, densidad de postlarvas (PL/m$^2$) y estado inicial (''activo''). \\
+RF-03 & Registrar Muestreo & Permite al T\'ecnico de Campo ingresar los controles de crecimiento, registrando la fecha y el peso promedio en gramos (\texttt{pesoPromG}) para estimar biomasa. \\
+RF-04 & Registrar Alimentaci\'on & Permite asociar a un ciclo activo las raciones diarias de alimento (kg), vinculando de forma obligatoria el tipo de insumo utilizado. \\
+RF-05 & Cerrar Ciclo y Cosecha & Permite al Administrador finalizar el ciclo cambiando su estado a ''cerrado'' y consolidando el registro final de cosecha (fecha y total de libras recolectadas). \\
 \bottomrule
 \end{tabular}
 \caption{Especificaci\'on de Requisitos Funcionales del subsistema.}
@@ -197,18 +200,18 @@ RF-05 & Cerrar Ciclo y Cosecha & Permite al Administrador finalizar el ciclo cam
 \label{sec:modelado}
 
 \subsection{An\'alisis de la estructura de clases y cardinalidades}
-El modelo conceptual consta de 10 clases organizadas con patrones de Orientaci\'on a Objetos[span_13](start_span)[span_13](end_span):
+El modelo conceptual consta de 10 clases organizadas con patrones de Orientaci\'on a Objetos:
 \begin{itemize}
-    \item \textbf{Camaronera y Piscina (Agregaci\'on $1 \to *$):} Una camaronera agrupa una o m\'as piscinas ($1..*$)[span_14](start_span)[span_14](end_span). La piscina tiene existencia f\'isica propia pero pertenece a la unidad productiva[span_15](start_span)[span_15](end_span).
-    \item \textbf{Piscina y CicloCultivo (Asociaci\'on $1 \to *$):} Una piscina almacena hist\'oricamente m\'ultiples ciclos de cultivo, aunque solo un ciclo permanece activo en un instante dado[span_16](start_span)[span_16](end_span).
-    \item \textbf{CicloCultivo, Muestreo y Alimentacion (Composici\'on $1 \to *$):} El ciclo de cultivo es el propietario de los eventos de muestreo y alimentaci\'on[span_17](start_span)[span_17](end_span). Si un ciclo es destruido, sus registros asociados se eliminan en cascada[span_18](start_span)[span_18](end_span).
-    \item \textbf{CicloCultivo y Cosecha (Composici\'on Opcional $1 \to 0..1$):} Un ciclo de cultivo culmina como m\'aximo con una \'unica cosecha registrada[span_19](start_span)[span_19](end_span).
-    \item \textbf{Alimentacion e Insumo (Asociaci\'on Directa $* \to 1$):} Cada evento de alimentaci\'on requiere la especificaci\'on obligatoria de un insumo del cat\'alogo[span_20](start_span)[span_20](end_span).
-    \item \textbf{Empleado, TecnicoCampo y Administrador (Generalizaci\'on / Herencia):} \texttt{Empleado} es la superclase abstracta con los atributos comunes[span_21](start_span)[span_21](end_span). \texttt{TecnicoCampo} y \texttt{Administrador} heredan sus propiedades e incorporan m\'etodos de rol[span_22](start_span)[span_22](end_span).
+    \item \textbf{Camaronera y Piscina (Agregaci\'on $1 \to *$):} Una camaronera agrupa una o m\'as piscinas ($1..*$). La piscina tiene existencia f\'isica propia pero pertenece a la unidad productiva.
+    \item \textbf{Piscina y CicloCultivo (Asociaci\'on $1 \to *$):} Una piscina almacena hist\'oricamente m\'ultiples ciclos de cultivo, aunque solo un ciclo permanece activo en un instante dado.
+    \item \textbf{CicloCultivo, Muestreo y Alimentacion (Composici\'on $1 \to *$):} El ciclo de cultivo es el propietario de los eventos de muestreo y alimentaci\'on. Si un ciclo es destruido, sus registros asociados se eliminan en cascada.
+    \item \textbf{CicloCultivo y Cosecha (Composici\'on Opcional $1 \to 0..1$):} Un ciclo de cultivo culmina como m\'aximo con una \'unica cosecha registrada.
+    \item \textbf{Alimentacion e Insumo (Asociaci\'on Directa $* \to 1$):} Cada evento de alimentaci\'on requiere la especificaci\'on obligatoria de un insumo del cat\'alogo.
+    \item \textbf{Empleado, TecnicoCampo y Administrador (Generalizaci\'on / Herencia):} \texttt{Empleado} es la superclase abstracta con los atributos comunes. \texttt{TecnicoCampo} y \texttt{Administrador} heredan sus propiedades e incorporan m\'etodos de rol.
 \end{itemize}
 
 \subsection{Modelo textual formal en sintaxis Umple}
-A continuaci\'on se presenta el c\'odigo \texttt{nativo.ump} revisado, formal y listo para compilar en UmpleOnline sin advertencias sint\'acticas[span_23](start_span)[span_23](end_span):
+A continuaci\'on se presenta el c\'odigo \texttt{nativo.ump} revisado, formal y listo para compilar en UmpleOnline sin advertencias sint\'acticas:
 
 \begin{verbatim}
 namespace ec.uteq.camaronera.piscinas;
@@ -298,4 +301,538 @@ class Administrador {
 \end{verbatim}
 
 \subsection{Validaci\'on y verificaci\'on del modelo}
-El modelo fue validado exitosamente en el entorno oficial de UmpleOnline (\url{https://try.umple.org})[span_24](start_span)[span_24](end_span). El analizador sem\'antico verific\'o la consistencia tipol\'ogica de todos los atributos y la integridad bidireccional de las relaciones[span_25](start_span)[span_25](end_span). No se reportaron errores de parseo, permitiendo la generaci\'on limpia de las 10 clases Java con sus respectivos m\'etodos de gesti\'on de colecciones y encapsulamiento[span_26](start_span)[span_26](end_span).
+El modelo fue validado exitosamente en el entorno oficial de UmpleOnline (\url{https://try.umple.org}). El analizador sem\'antico verific\'o la consistencia tipol\'ogica de todos los atributos y la integridad bidireccional de las relaciones. No se reportaron errores de parseo, permitiendo la generaci\'on limpia de las 10 clases Java con sus respectivos m\'etodos de gesti\'on de colecciones y encapsulamiento.
+
+\section{Configuración del mecanismo de generación}
+
+\subsection{Origen del generador}
+
+La generación de código se realizó con \textbf{UmpleOnline}
+(\url{https://try.umple.org}), la interfaz web oficial del compilador
+Umple, desarrollado y mantenido por el laboratorio CRUISE de la
+Universidad de Ottawa como proyecto de código abierto. Umple es un
+lenguaje de modelado textual que permite expresar clases, atributos,
+asociaciones y máquinas de estado, y transformarlos directamente a
+código fuente en varios lenguajes destino, entre ellos Java, que es el
+utilizado en este proyecto.
+
+La versión exacta de la herramienta empleada fue verificada por dos
+vías independientes, que reportan dos identificadores de build
+distintos correspondientes a dos componentes separados de la
+herramienta: (a) el pie de página de la interfaz web, que declara
+\texttt{v1.37.0.8639.f07c3e9b7} y enlaza a la release correspondiente
+en GitHub, y (b) el comentario de cabecera que el generador inserta
+automáticamente en cada archivo \texttt{.java} producido, el cual
+declara \texttt{1.37.0.8639.dcaf9c798} como versión del motor de
+compilación Umple. Ambos identificadores comparten la misma versión
+de release (\texttt{1.37.0.8639}) pero difieren en el \emph{hash} de
+build porque corresponden a componentes distintos de UmpleOnline: la
+interfaz web (front-end) y el motor de compilación que efectivamente
+transforma el modelo en código Java. Se documentan ambos valores
+--sin forzar su coincidencia-- para máxima trazabilidad, y ambos se
+replicaron en el \texttt{README.md} del repositorio. Consultado el 20
+de julio de 2026.
+
+\subsection{Parámetros de generación}
+
+Los parámetros aplicados al proceso de generación fueron los
+siguientes:
+
+\begin{itemize}
+  \item \textbf{Lenguaje destino:} Java, mediante la opción
+        \emph{Java Code} del menú \emph{Generate} de UmpleOnline.
+  \item \textbf{Paquete de salida:} declarado en el propio modelo con
+        la directiva \path{namespace ec.uteq.camaronera.piscinas;},
+        situada como primera línea del archivo
+        \texttt{modelo/camaronera.ump}. Esta directiva determina tanto
+        la sentencia \texttt{package} de cada clase generada como la
+        jerarquía de carpetas del código resultante.
+  \item \textbf{Directorio de salida:} UmpleOnline no permite
+        configurar la ruta de salida; el equipo adoptó como convención
+        descargar el paquete comprimido mediante la opción
+        \emph{Download Files} del panel \textsc{save \& load} y
+        descomprimirlo en la carpeta \texttt{generado/} del
+        repositorio, conservando el árbol de paquetes.
+  \item \textbf{Convención de nombres:} impuesta por el generador y no
+        editable. Umple produce sistemáticamente métodos con los
+        patrones \texttt{getX}, \texttt{setX}, \texttt{addX},
+        \texttt{removeX} y \texttt{numberOfX} según el tipo de miembro
+        y la multiplicidad de cada asociación; el equipo la documenta
+        como parámetro fijo de la herramienta.
+  \item \textbf{Generadores no utilizados:} no se activó la generación
+        SQL (\texttt{UmpleToSql}) por estar la persistencia fuera del
+        alcance de este módulo, ni la generación de pruebas, que en
+        Umple solo está disponible a través del compilador por línea
+        de comandos y no desde el panel web. La verificación funcional
+        se realiza mediante la unidad demostrable descrita en la
+        Sección~6.2.
+\end{itemize}
+
+\paragraph{Política ante regeneración.}
+El comportamiento de la herramienta ante una regeneración es la
+\emph{sobrescritura completa} de las clases modeladas: el código Java
+generado no incluye bloques protegidos que preserven ediciones
+manuales. En consecuencia, el equipo adoptó la siguiente regla: está
+prohibido editar cualquier archivo dentro de \texttt{generado/}; todo
+cambio de dominio nace en \texttt{modelo/camaronera.ump} y se
+regenera; el código escrito a mano (la clase de demostración
+\texttt{DemoPiscinas.java}) vive exclusivamente en la carpeta
+\texttt{manual/}, fuera del árbol regenerado, por lo que una
+regeneración no tiene ningún efecto sobre él. El cumplimiento de esta
+política es verificable por dos mecanismos: la cabecera
+\emph{PLEASE DO NOT EDIT THIS CODE} presente en todo archivo generado,
+y el historial de \emph{commits} del repositorio, donde cada
+regeneración se registra como un cambio atómico sobre
+\texttt{generado/}.
+
+\subsection{Decisiones de mapeo}
+
+La Tabla~3 resume las decisiones de mapeo entre las construcciones UML
+del modelo y las construcciones Java producidas por el generador. Las
+correspondencias principales son las siguientes: cada clase UML se
+transforma en una clase Java homónima; cada atributo, en un campo
+privado con sus métodos de acceso \texttt{getX}/\texttt{setX}; la
+generalización (\texttt{isA} en Umple) se traduce en la cláusula
+\texttt{extends}; y cada operación modelada conserva su firma en la
+clase generada, junto con los métodos de infraestructura
+\texttt{toString()} y \texttt{delete()} que Umple añade por defecto a
+toda clase. Cabe precisar que Umple \emph{no} genera \texttt{equals()}
+ni \texttt{hashCode()} salvo que se declare una clave (\texttt{key})
+en la clase, recurso que este modelo no emplea.
+
+En cuanto a las relaciones, el mapeo depende de la multiplicidad y del
+tipo de asociación:
+
+\begin{itemize}
+  \item \textbf{Asociación \texttt{1 -- *} (Camaronera--Piscina y
+        Piscina--CicloCultivo):} en el extremo ``uno'' se genera la
+        colección con \texttt{getX()}, \texttt{numberOfX()} y el
+        método \texttt{addX()}; en el extremo ``muchos'', una
+        referencia obligatoria al padre, exigida en el constructor
+        (\texttt{Piscina} exige su \texttt{Camaronera};
+        \texttt{CicloCultivo} exige su \texttt{Piscina}).
+  \item \textbf{Composición \texttt{1 <@>- *} / \texttt{1 <@>- 0..1}
+        (CicloCultivo--Muestreo, CicloCultivo--Alimentacion y
+        CicloCultivo--Cosecha):} el mismo mapeo anterior, más el
+        método \texttt{delete()} del compuesto (\texttt{CicloCultivo})
+        propagando la eliminación a sus tres tipos de parte (borrado
+        en cascada).
+  \item \textbf{Referencia obligatoria \texttt{* -- 1} (Muestreo--Empleado
+        y Alimentacion--Insumo):} se genera un \texttt{setX()} que
+        mantiene la integridad bidireccional del vínculo; no se genera
+        \texttt{removeX()} en este extremo.
+  \item \textbf{Multiplicidad mínima:} las restricciones de mínimo
+        (extremos obligatorios) se exigen en los constructores y en
+        tiempo de ejecución, no en tiempo de compilación.
+\end{itemize}
+
+Las directivas de Umple utilizadas y su efecto en el código Java se
+resumen a continuación:
+
+\begin{table}[H]
+  \centering
+  \caption{Directivas Umple empleadas y su traducción a Java.}
+  \begin{tabular}{|l|p{8.5cm}|}
+    \hline
+    \textbf{Directiva Umple} & \textbf{Efecto en el código Java} \\
+    \hline
+    \texttt{namespace} &
+      Sentencia \texttt{package} en cada clase y jerarquía de
+      carpetas \texttt{ec/uteq/camaronera/piscinas/}. \\
+    \hline
+    \texttt{isA} &
+      Cláusula \texttt{extends} (TecnicoCampo y Administrador heredan
+      de Empleado). \\
+    \hline
+    \texttt{<@>-} (composición) &
+      Borrado en cascada de las partes al invocar \texttt{delete()}
+      sobre el compuesto. \\
+    \hline
+  \end{tabular}
+\end{table}
+
+El modelo no emplea \texttt{singleton}, \texttt{immutable},
+\texttt{abstract}, \texttt{lazy} ni \emph{traits}: su ausencia es una
+decisión de diseño ---el dominio del módulo no los requiere--- y no
+una omisión de documentación, por lo que no aplican mapeos
+adicionales.
+
+\subsection{Archivos de configuración en el repositorio}
+
+Dado que UmpleOnline no utiliza archivos de configuración externos,
+la parametrización del proceso se documenta en el archivo
+\texttt{plantillas/opciones-generacion.md} del repositorio, que
+registra: (1) la herramienta, su URL y la versión exacta con fecha de
+acceso; (2) la fuente única de generación, que es
+\texttt{modelo/camaronera.ump} identificado por el \emph{hash} del
+\emph{commit} correspondiente
+(\texttt{0a2d178385b027df7bca755653b2804fbe7a812d}) ---el archivo no se duplica en otras
+carpetas para evitar divergencias---; (3) la opción literal de
+generación utilizada (\emph{Java Code}); (4) el \emph{namespace}
+declarado; (5) los generadores descartados y su motivo; (6) la
+política ante regeneración descrita en la Sección~5.2; y (7) el
+procedimiento de exportación (\emph{Download Files}
+$\rightarrow$ \texttt{generado/}). Con ello, cualquier miembro del
+equipo o evaluador puede reproducir la generación en las mismas
+condiciones.
+
+\section{Proceso de generación y verificación del código}
+
+\subsection{Ejecución de la generación}
+
+El proceso se ejecutó en tres pasos, documentados con capturas de
+pantalla almacenadas en \texttt{evidencias/capturas/}:
+
+\begin{enumerate}
+  \item \textbf{Edición y validación del modelo:} el archivo
+        \texttt{camaronera.ump} se cargó en UmpleOnline, cuyo panel
+        dividido muestra simultáneamente el modelo textual y el
+        diagrama de clases renderizado sin errores de compilación del
+        modelo (Figura~\ref{fig:panel-dividido}).
+  \item \textbf{Generación y descarga:} se ejecutó \emph{Generate
+        $\rightarrow$ Java Code} y se descargó el paquete completo
+        mediante la opción \emph{Download Files} del panel
+        \textsc{save \& load} (Figura~\ref{fig:descarga}).
+  \item \textbf{Incorporación al repositorio:} el archivo comprimido
+        se descomprimió en \texttt{generado/}, conservando el árbol de
+        paquetes \texttt{ec/uteq/camaronera/piscinas/} con los diez
+        archivos \texttt{.java} (Figura~\ref{fig:arbol-generado}).
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/01-panel-dividido.png}
+  \caption{Panel dividido de UmpleOnline: modelo textual (izquierda) y
+  diagrama de clases renderizado sin errores (derecha).}
+  \label{fig:panel-dividido}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/02-descarga.png}
+  \caption{Resultado de \emph{Generate $\rightarrow$ Java Code}: código
+  Java generado (clase \texttt{Piscina}) con cabecera
+  \emph{PLEASE DO NOT EDIT THIS CODE} y versión del motor Umple.}
+  \label{fig:descarga}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/03-arbol-generado.png}
+  \caption{Árbol de archivos generados en \texttt{generado/ec/uteq/camaronera/piscinas/}:
+  los diez archivos \texttt{.java} correspondientes a las diez clases del modelo.}
+  \label{fig:arbol-generado}
+\end{figure}
+
+\paragraph{Coherencia entre la estructura del proyecto y el modelo.}
+La estructura resultante es coherente con el modelo por tres
+evidencias verificables. Primera, existe una correspondencia uno a uno
+entre las diez clases del modelo y los diez archivos generados, de
+nombre idéntico, como muestra la captura del árbol y la columna de
+archivos de la Tabla~\ref{tab:correspondencia}. Segunda, la jerarquía de carpetas reproduce
+exactamente el \emph{namespace} declarado, que a su vez representa el
+subsistema modelado (módulo de piscinas del sistema de la
+camaronera). Tercera, el inventario del paquete descargado no contiene
+archivos adicionales sin clasificar: todo su contenido corresponde a
+clases del modelo.
+
+\paragraph{Distinción entre código generado y código manual.}
+El repositorio permite distinguir de forma objetiva el código generado
+del escrito a mano mediante tres mecanismos simultáneos: (a) la
+separación física en carpetas, pues \texttt{generado/} contiene
+exclusivamente la salida de la herramienta y \texttt{manual/} el único
+archivo escrito por el equipo (\texttt{DemoPiscinas.java}); (b) el
+marcador del propio generador, ya que todo archivo producido por Umple
+inicia con el comentario \emph{PLEASE DO NOT EDIT THIS CODE}, que
+además declara la versión utilizada, marca ausente en el código
+manual; y (c) la declaración explícita del código manual en el
+\texttt{README.md} del repositorio y en esta sección.
+
+\subsection{Compilación y ejecución de una unidad demostrable}
+
+Como unidad demostrable se escribió la clase
+\path{manual/ec/uteq/camaronera/piscinas/DemoPiscinas.java}, que
+instancia el núcleo del dominio ---una camaronera con una piscina, un
+ciclo de cultivo activo y un muestreo registrado por un empleado--- y
+verifica mediante la API generada que el vínculo entre el ciclo y su
+muestreo quedó establecido. El fragmento central es el siguiente
+(las firmas de los constructores corresponden a las generadas por
+Umple, que exigen los extremos de asociación obligatorios):
+
+\begin{verbatim}
+Empleado empleado = new Empleado("0912345678", "Juan Pérez");
+Camaronera camaronera = new Camaronera("AquaGest", "Quevedo");
+Piscina piscina = new Piscina("P-01", 2.5, camaronera);
+CicloCultivo ciclo = new CicloCultivo(fechaSiembra, 12, "activo", piscina);
+Muestreo muestreo = new Muestreo(fechaMuestreo, 8.5, empleado, ciclo);
+System.out.println("Muestreos del ciclo: "
+    + ciclo.getMuestreos().size());
+\end{verbatim}
+
+La compilación y ejecución se realizaron desde la raíz del
+repositorio con los siguientes comandos:
+
+\begin{verbatim}
+javac -d out generado/ec/uteq/camaronera/piscinas/*.java \
+      manual/ec/uteq/camaronera/piscinas/DemoPiscinas.java
+java -cp out ec.uteq.camaronera.piscinas.DemoPiscinas
+\end{verbatim}
+
+La salida obtenida fue \texttt{Muestreos del ciclo: 1}, que confirma
+que el código generado compila sin errores y que la asociación
+CicloCultivo--Muestreo funciona conforme al modelo. La evidencia de la
+compilación y de la salida en consola se encuentra en
+\texttt{evidencias/capturas/} (Figura~\ref{fig:compilacion-salida}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/04-compilacion-salida.png}
+  \caption{Terminal mostrando la compilación sin errores y la ejecución
+  de \texttt{DemoPiscinas}, con la salida \texttt{Muestreos del ciclo: 1}.}
+  \label{fig:compilacion-salida}
+\end{figure}
+
+\subsection{Correspondencia entre el modelo y el código generado}
+
+La Tabla~\ref{tab:correspondencia} documenta, clase por clase, la correspondencia entre los
+elementos del modelo y el código generado: el archivo \texttt{.java}
+resultante, la firma del constructor ---incluidos los extremos de
+asociación obligatorios que el generador exige---, y los métodos de
+asociación producidos según la multiplicidad de cada relación
+(\texttt{addX()}/\texttt{getX()}/\texttt{numberOfX()} en los extremos
+de colección, \texttt{setX()} con integridad bidireccional en las
+referencias obligatorias, y \texttt{delete()} con propagación en
+cascada en las composiciones declaradas). Todos los nombres de la
+tabla fueron confirmados contra el código efectivamente descargado,
+de modo que la correspondencia es verificable abriendo cualquiera de
+los archivos de \texttt{generado/} durante la exposición.
+
+\begin{table}[H]
+  \centering
+  \caption{Correspondencia entre las clases del modelo y el código Java generado.}
+  \label{tab:correspondencia}
+  \small
+  \begin{tabular}{|l|l|p{6.3cm}|}
+    \hline
+    \textbf{Clase UML} & \textbf{Archivo generado} & \textbf{Constructor y métodos de asociación destacados} \\
+    \hline
+    Camaronera &
+      \texttt{Camaronera.java} &
+      \texttt{Camaronera(nombre, ubicacion)}; colección \texttt{piscinas} con \texttt{addPiscina()}, \texttt{getPiscinas()}, \texttt{numberOfPiscinas()}; \texttt{delete()} en cascada sobre sus piscinas. \\
+    \hline
+    Piscina &
+      \texttt{Piscina.java} &
+      \texttt{Piscina(codigo, areaHa, camaronera)} exige \texttt{camaronera} (lanza \texttt{RuntimeException} si es nula); colección \texttt{cicloCultivos}; \texttt{setCamaronera()} mantiene integridad bidireccional. \\
+    \hline
+    CicloCultivo &
+      \texttt{CicloCultivo.java} &
+      \texttt{CicloCultivo(fechaSiembra, densidadPL, estado, piscina)} exige \texttt{piscina}; colecciones \texttt{muestreos} y \texttt{alimentacions}; referencia opcional \texttt{cosecha} vía \texttt{setCosecha()} (patrón \emph{SetOptionalOneToOne}); \texttt{delete()} propaga a muestreos, alimentaciones y cosecha. \\
+    \hline
+    Muestreo &
+      \texttt{Muestreo.java} &
+      \texttt{Muestreo(fecha, pesoPromG, empleado, cicloCultivo)} exige ambos extremos; método de dominio \texttt{calcularBiomasa()}. \\
+    \hline
+    Alimentacion &
+      \texttt{Alimentacion.java} &
+      \texttt{Alimentacion(fecha, cantidadKg, insumo, cicloCultivo)} exige ambos extremos. \\
+    \hline
+    Cosecha &
+      \texttt{Cosecha.java} &
+      \texttt{Cosecha(fecha, totalLibras, cicloCultivo)}; \texttt{setCicloCultivo()} usa patrón \emph{SetOneToOptionalOne}: si el ciclo ya tiene otra cosecha asignada, rechaza el cambio para no huérfanar la existente. \\
+    \hline
+    Insumo &
+      \texttt{Insumo.java} &
+      \texttt{Insumo(nombre, tipo)}; colección \texttt{alimentacions} con \texttt{addAlimentacion()}. \\
+    \hline
+    Empleado &
+      \texttt{Empleado.java} &
+      \texttt{Empleado(cedula, nombre)}; colección \texttt{muestreos}; superclase de \texttt{TecnicoCampo} y \texttt{Administrador}. \\
+    \hline
+    TecnicoCampo &
+      \texttt{TecnicoCampo.java} &
+      \texttt{extends Empleado}; \texttt{TecnicoCampo(cedula, nombre)} delega en \texttt{super()}; método de rol \texttt{registrarMuestreo()} (cuerpo delegado, sin implementación de negocio). \\
+    \hline
+    Administrador &
+      \texttt{Administrador.java} &
+      \texttt{extends Empleado}; \texttt{Administrador(cedula, nombre)} delega en \texttt{super()}; método de rol \texttt{crearCiclo()} (cuerpo delegado). \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Limitaciones observadas del generador}
+
+Durante el uso del generador se identificaron las siguientes
+limitaciones, cada una con su evidencia y la estrategia adoptada:
+
+\begin{table}[H]
+  \centering
+  \caption{Limitaciones observadas del generador y mitigación.}
+  \begin{tabular}{|p{4.2cm}|p{4.6cm}|p{4.6cm}|}
+    \hline
+    \textbf{Limitación} & \textbf{Evidencia} & \textbf{Mitigación} \\
+    \hline
+    Los \emph{getters} de asociación devuelven listas inmutables;
+    modificarlas directamente lanza
+    \texttt{Unsupported-}\allowbreak\texttt{OperationException}. &
+    Cuerpos de operación que usaban
+    \texttt{getX().add(y)} fallaban en ejecución. &
+    Usar siempre los métodos generados \texttt{addX()} en los cuerpos
+    modelados en el \texttt{.ump}. \\
+    \hline
+    Los constructores exigen los extremos de asociación obligatorios,
+    lo que impone un orden de creación de objetos. &
+    Firmas de los constructores en
+    \texttt{generado/}. &
+    Documentar el orden de instanciación en la unidad demostrable
+    (Sección~6.2). \\
+    \hline
+    Al agregar un atributo nuevo en el modelo, Umple lo incorpora
+    también como parámetro obligatorio del constructor de la clase
+    (no solo como campo con \texttt{getter}/\texttt{setter}), lo que
+    puede romper la compilación del código manual que instancia esa
+    clase. &
+    Tras el cambio de la Sección~7 (atributo \texttt{observaciones} en
+    \texttt{Muestreo}), el constructor pasó a exigir un quinto
+    parámetro; \texttt{DemoPiscinas.java} dejó de compilar hasta
+    actualizarlo. &
+    Se actualizó la unidad demostrable para incluir el nuevo
+    parámetro; se documenta como procedimiento estándar del equipo
+    ante cualquier atributo nuevo. \\
+    \hline
+    Las multiplicidades mínimas se verifican en tiempo de ejecución,
+    no en compilación. &
+    Violaciones de mínimo producen fallos al ejecutar, no al
+    compilar. &
+    Cubrir los escenarios de creación en la unidad demostrable y en
+    las pruebas del PFC. \\
+    \hline
+    El generador no valida reglas de negocio del dominio (rangos de
+    oxígeno, fechas coherentes, etc.). &
+    El código generado acepta cualquier valor en los atributos. &
+    Las validaciones de dominio se implementarán en la capa de
+    servicios del PFC. \\
+    \hline
+    No hay bloques protegidos: la regeneración sobrescribe todo el
+    código generado. &
+    Cabecera \emph{PLEASE DO NOT EDIT THIS CODE} en cada archivo. &
+    Política de regeneración de la Sección~5.2 (código manual fuera
+    de \texttt{generado/}). \\
+    \hline
+    La generación de pruebas no está disponible en el panel web,
+    solo mediante el compilador por línea de comandos. &
+    Menú \emph{Generate} de UmpleOnline sin opción de pruebas. &
+    Verificación funcional mediante la unidad demostrable
+    \texttt{DemoPiscinas}. \\
+    \hline
+    UmpleOnline no permite configurar el directorio de salida. &
+    La descarga entrega un único archivo comprimido. &
+    Convención de equipo: descompresión en \texttt{generado/}
+    (Sección~5.2). \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Estas limitaciones no comprometen el objetivo del ciclo MDD: el
+código de dominio se obtiene íntegramente del modelo, y los aspectos
+no cubiertos por el generador quedan explícitamente asignados a
+etapas posteriores del proyecto.
+
+
+% ============================================================
+% CIERRE DEL CICLO (ROUNDTRIP) Y TRAZABILIDAD
+% ============================================================
+\section{Cierre del ciclo (\emph{roundtrip} controlado) y trazabilidad}
+\label{sec:roundtrip}
+
+Para evidenciar que el modelo \texttt{.ump} puede evolucionar de forma incremental sin romper el código ya generado, se ejecutó un cambio no trivial sobre el modelo de origen: se agregó el atributo \texttt{observaciones: String} a la clase \texttt{Muestreo}, directamente en el panel textual de UmpleOnline, quedando la clase como sigue:
+
+\begin{verbatim}
+class Muestreo {
+    Date fecha;
+    Double pesoPromG;
+    String observaciones;
+    * -- 1 Empleado;
+    Double calcularBiomasa() {
+        return pesoPromG;
+    }
+}
+\end{verbatim}
+
+Tras la regeneración automática (inmediata en UmpleOnline al guardar el cambio) se verificó que el atributo apareció en \texttt{Muestreo.java} con su respectivo \texttt{getter}/\texttt{setter} (\texttt{getObservaciones()} / \texttt{setObservaciones(String)}), sin afectar el resto de las clases ni de las asociaciones ya generadas. Esto constituye evidencia directa de que el ciclo \emph{round-trip} de Umple regenera de forma incremental y no destructiva, conforme a la política de regeneración descrita en la Sección~5.2.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/roundtrip-antes.png}
+  \caption{Modelo y código \emph{antes} del cambio: clase \texttt{Muestreo} sin el atributo \texttt{observaciones}.}
+  \label{fig:roundtrip-antes}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/roundtrip-despues.png}
+  \caption{Modelo y código \emph{después} del cambio: clase \texttt{Muestreo} regenerada con el atributo \texttt{observaciones} y sus métodos de acceso.}
+  \label{fig:roundtrip-despues}
+\end{figure}
+
+La trazabilidad modelo→código se mantiene consistente: el atributo agregado en el modelo textual se refleja exactamente con el mismo nombre y tipo en el código Java regenerado. Umple no ofrece bloques protegidos (Sección~5.2); en este caso no fue necesario, ya que el código regenerado vive íntegramente en \texttt{generado/}, fuera de cualquier edición manual.
+
+Cabe señalar, con honestidad metodológica, que el cambio \emph{sí} tuvo un efecto colateral sobre el código manual: Umple no solo agregó el campo \texttt{observaciones} con su \texttt{getter}/\texttt{setter}, sino que también lo incorporó como parámetro obligatorio del constructor de \texttt{Muestreo} (\texttt{Muestreo(Date, double, String, Empleado, CicloCultivo)}), rompiendo la compilación de la unidad demostrable \texttt{DemoPiscinas.java}, que instanciaba un \texttt{Muestreo} con la firma anterior de cuatro parámetros. Esto evidencia una limitación adicional del generador (documentada en la Tabla~6, Sección~6.4): un cambio aditivo en apariencia puede propagarse como un cambio disruptivo en la interfaz pública de la clase generada. El equipo corrigió \texttt{DemoPiscinas.java} agregando el nuevo argumento y adoptó como práctica de equipo revisar las firmas de constructor tras cada regeneración.
+
+% ============================================================
+% REPARTO DEL TRABAJO POR INTEGRANTE
+% ============================================================
+\section{Reparto del trabajo por integrante}
+\label{sec:reparto}
+
+La Tabla~\ref{tab:reparto} resume la distribución de responsabilidades por integrante, consistente con el \texttt{README.md} del repositorio y con el registro de \emph{Insights} $\rightarrow$ \emph{Contributors} de GitHub (Figura~\ref{fig:contributors}).
+
+\begin{table}[H]
+  \centering
+  \caption{Distribución de responsabilidades por integrante.}
+  \label{tab:reparto}
+  \small
+  \begin{tabular}{|p{4cm}|p{6cm}|p{4cm}|}
+    \hline
+    \textbf{Integrante} & \textbf{Fase(s) liderada(s)} & \textbf{Commits (URL)} \\
+    \hline
+    Alvia Villegas, Erick Adalberto & Sección 1 (Marco teórico) y Sección 2 (Justificación de la herramienta) & \href{https://github.com/jmaciasherr4/Exposion/commit/fb8d5919b8b6c51d0030d5d4599ae57119a92373}{commit fb8d591} \\
+    \hline
+    Arboleda Yanza, Francisco Javier & Sección 3 (Descripción del subsistema) y Sección 4 (Modelo UML de origen, archivo \texttt{.ump}) & \href{https://github.com/jmaciasherr4/Exposion/commit/e6fed42828f622ea11465de8f6e590edb147861b}{commit e6fed42} \\
+    \hline
+    Calle Delgado, Kamila Annabella & Sección 5 (Configuración del generador) y Sección 6 (Generación y verificación del código) & \href{https://github.com/jmaciasherr4/Exposion/commit/de32e7448c894e29a21794710404765e25fa5401}{commit de32e74} \\
+    \hline
+    Macías Herrera, Josthyn Esteban & Sección 7 (Roundtrip y trazabilidad), Sección 9 (Conclusiones) y coordinación del repositorio GitHub & \href{https://github.com/jmaciasherr4/Exposion/commit/e8575095c6b4f3e865649a4609f57159aab84a16}{commit e857509} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../evidencias/capturas/contributors.png}
+  \caption{Registro de \emph{Insights} $\rightarrow$ \emph{Contributors} del repositorio GitHub, evidenciando los commits diferenciados por integrante.}
+  \label{fig:contributors}
+\end{figure}
+
+% ============================================================
+% CONCLUSIONES
+% ============================================================
+\section{Conclusiones}
+\label{sec:conclusiones}
+
+El ciclo completo de MDD aplicado sobre el subsistema \emph{Gestión de Piscinas y Ciclos de Cultivo} confirmó que un modelo de clases correctamente validado —con tipos, multiplicidades y generalizaciones explícitas— es suficiente para obtener código Java compilable sin escribir manualmente ni los accesores ni la lógica de integridad referencial de las asociaciones.
+
+Frente a herramientas basadas en plantillas M2T externas (Acceleo/MTL), UmpleOnline demostró una curva de aprendizaje menor para un equipo de pregrado: no fue necesario diseñar ni depurar una plantilla propia, a costa de menor flexibilidad para personalizar la forma exacta del código generado (Sección~2).
+
+La principal limitación encontrada fue que Umple resuelve estructura y asociaciones, pero no reglas de negocio del dominio (Sección~6); por lo tanto, el código exportado se integrará al PFC como el núcleo del modelo de dominio (clases, atributos y asociaciones), mientras que las validaciones específicas (capacidad máxima de siembra, unicidad de la cosecha por ciclo, umbrales de biomasa) se implementarán como una capa de servicio adicional sobre las clases generadas.
+
+La prueba de \emph{round-trip} controlada (Sección~7) evidenció que el modelo \texttt{.ump} puede evolucionar de forma incremental sin romper el código ya generado, lo que respalda su uso continuo durante el resto del desarrollo del PFC y no solo como generador de un prototipo inicial desechable.
+
+Como aprendizaje adicional del equipo, la experiencia mostró que trabajar con un lenguaje textual sincronizado con el diagrama (a diferencia de herramientas puramente gráficas) redujo notablemente los errores de sincronización entre el modelo y su representación visual, y facilitó el control de versiones del propio modelo mediante Git, al tratarse de un archivo de texto plano legible en cualquier editor.
+
+% ============================================================
+% REFERENCIAS
+% ============================================================
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+
+\end{document}
