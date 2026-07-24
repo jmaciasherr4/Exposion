@@ -16,6 +16,7 @@ public class Muestreo
   //Muestreo Attributes
   private Date fecha;
   private double pesoPromG;
+  private String observaciones;
 
   //Muestreo Associations
   private Empleado empleado;
@@ -69,6 +70,19 @@ public class Muestreo
   public double getPesoPromG()
   {
     return pesoPromG;
+  }
+
+  public boolean setObservaciones(String aObservaciones)
+  {
+    boolean wasSet = false;
+    observaciones = aObservaciones;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public String getObservaciones()
+  {
+    return observaciones;
   }
   /* Code from template association_GetOne */
   public Empleado getEmpleado()
