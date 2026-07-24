@@ -26,10 +26,11 @@ public class Muestreo
   // CONSTRUCTOR
   //------------------------
 
-  public Muestreo(Date aFecha, double aPesoPromG, Empleado aEmpleado, CicloCultivo aCicloCultivo)
+  public Muestreo(Date aFecha, double aPesoPromG, String aObservaciones, Empleado aEmpleado, CicloCultivo aCicloCultivo)
   {
     fecha = aFecha;
     pesoPromG = aPesoPromG;
+    observaciones = aObservaciones;
     boolean didAddEmpleado = setEmpleado(aEmpleado);
     if (!didAddEmpleado)
     {
