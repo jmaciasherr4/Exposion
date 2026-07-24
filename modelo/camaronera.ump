@@ -42,6 +42,7 @@ class Muestreo {
   Date fecha;
   Double pesoPromG;
   * -- 1 Empleado;
+  String observaciones;
 
   Double calcularBiomasa() {
     return pesoPromG;
