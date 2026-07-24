@@ -32,7 +32,7 @@ cultivo de cada piscina (muestreos, alimentación y cosecha) y los empleados
 - **Versión del motor de compilación Umple:** 1.37.0.8639.dcaf9c798
   *(ambos identificadores corresponden a la misma release 1.37.0.8639, pero a
   componentes distintos de la herramienta: interfaz web y motor de generación
-  de código, respectivamente — ver Sección 5.1 de `Documento/secciones_5_6.tex`
+  de código, respectivamente — ver Sección 5.1 de `Documento/Informe.tex`
   para el detalle).*
 - **Fecha de acceso:** 20 de julio de 2026.
 - **Lenguaje objetivo:** Java.
@@ -51,8 +51,8 @@ cultivo de cada piscina (muestreos, alimentación y cosecha) y los empleados
 Exposion/
 ├── README.md
 ├── Documento/
-│   ├── Informe.tex              # Documento evidencia principal
-│   ├── secciones_5_6.tex        # Secciones 5 y 6 (Configuración del generador; Proceso y verificación)
+│   ├── Informe.tex              # Documento evidencia completo (secciones 1 a 10 + bibliografía)
+│   ├── Informe.pdf              # PDF compilado (subir también al SGA)
 │   └── referencias.bib
 ├── modelo/
 │   └── camaronera.ump           # Modelo de origen en sintaxis Umple
@@ -62,9 +62,16 @@ Exposion/
 │   └── ec/uteq/camaronera/piscinas/   # Código Java generado por UmpleOnline (NO EDITAR)
 ├── manual/
 │   └── ec/uteq/camaronera/piscinas/DemoPiscinas.java  # Unidad demostrable (código manual)
+├── exposicion/
+│   └── diapositivas.pdf         # Versión PDF (requerida por la guía, Sección 7)
 └── evidencias/
-    └── capturas/                # Capturas del proceso completo (01 a 04)
+    └── capturas/                # Capturas del proceso completo (01 a 04, roundtrip-antes/despues, contributors)
 ```
+
+> **Nota de compilación:** `Informe.tex` ya incluye, en un solo archivo, el marco
+> teórico, la justificación de la herramienta, el modelo UML, la configuración
+> del generador, el proceso de generación, el roundtrip, el reparto del trabajo,
+> las conclusiones y la bibliografía. No requiere `\input` de archivos externos.
 
 ## Cómo reproducir la generación de código
 
@@ -106,9 +113,10 @@ CicloCultivo–Muestreo funciona conforme al modelo. Evidencia en
 
 ## Cómo compilar el informe (`.tex` → `.pdf`)
 
-El documento principal es `Documento/Informe.tex`, que incorpora
-`Documento/secciones_5_6.tex`. Requiere `pdflatex` (o `xelatex`/`lualatex`) y
-al menos **2 pasadas** para resolver referencias cruzadas y la bibliografía:
+El documento principal y único es `Documento/Informe.tex` (ya incluye todas
+las secciones y la bibliografía). Requiere `pdflatex` (o `xelatex`/`lualatex`)
+y **bibtex**, con la secuencia siguiente para resolver referencias cruzadas y
+la bibliografía:
 
 ```bash
 cd Documento
